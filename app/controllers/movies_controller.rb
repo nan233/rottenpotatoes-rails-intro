@@ -14,12 +14,12 @@ class MoviesController < ApplicationController
     @movies = Movie.all
   end
 
-  def title_header
+  def title
     @movies = Movie.order(:title)
     redirect_to movies_path
   end
   
-  def release_date_header
+  def release
     @movies = Movie.order(:release_date)
     redirect_to movies_path
   end

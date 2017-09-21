@@ -1,4 +1,4 @@
--#  This file is app/views/movies/index.html.haml
+-#  This file is app/views/movies/release.html.haml
 %h1 All Movies
 
 %table#movies
@@ -6,7 +6,7 @@
     %tr
       %th <a href=title_header_path>Movie Title</a>
       %th Rating
-      %th <a href=release_date_header_path>Release Date</a>
+      %th.hilite <a href=release_date_header_path>Release Date</a>
       %th More Info
   %tbody
     - @movies.each do |movie|
