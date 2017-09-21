@@ -16,12 +16,10 @@ class MoviesController < ApplicationController
 
   def title
     @movies = Movie.order(:title)
-    redirect_to movies_path
   end
   
   def release
     @movies = Movie.order(:release_date)
-    redirect_to movies_path
   end
 
   def new
