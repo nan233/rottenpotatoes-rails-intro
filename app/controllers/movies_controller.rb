@@ -14,6 +14,16 @@ class MoviesController < ApplicationController
     @movies = Movie.all
   end
 
+  def title_header
+    @movies = Movie.order(:title)
+    redirect_to movies_path
+  end
+  
+  def release_date_header
+    @movies = Movie.order(:release_date)
+    redirect_to movies_path
+  end
+
   def new
     # default: render 'new' template
   end
