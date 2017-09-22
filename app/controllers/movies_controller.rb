@@ -14,35 +14,34 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.myratings
     @selected = {}
     if params[:ratings]!=nil
-      @selected = params[:ratings]
+      @selected = params[:ratings].keys
       @movies = Movie.where({rating: params[:ratings].keys})
     else
       @selected = @all_ratings
       @movies = Movie.all
     end
+    session[:ratings] = @selected.to_yaml
   end
 
   def title
     @all_ratings = Movie.myratings
-    @selected = {}
-    if params[:ratings]!=nil
-      @selected = params[:ratings]
-      @movies = Movie.where({rating: params[:ratings].keys}).order(:title)
-    else
+    if session[:ratings].blank?
       @selected = @all_ratings
       @movies = Movie.order(:title)
+    else
+      @selected = YAML.load(session[:ratings])
+      @movies = Movie.where({rating: @selected}).order(:title)
     end
   end
   
   def release
     @all_ratings = Movie.myratings
-    @selected = {}
-    if params[:ratings]!=nil
-      @selected = params[:ratings]
-      @movies = Movie.where({rating: params[:ratings].keys}).order(:release_date)
-    else
+    if session[:ratings].blank?
       @selected = @all_ratings
       @movies = Movie.order(:release_date)
+    else
+      @selected = YAML.load(session[:ratings])
+      @movies = Movie.where({rating: @selected}).order(:release_date)
     end
   end
 
