@@ -1,12 +1,22 @@
 -#  This file is app/views/movies/title.html.haml
 %h1 All Movies
 
+= form_tag movies_path, :id => "ratings_form", :method => :get do
+  Include:
+  - @all_ratings.each do |rating|
+    = rating
+    -if @selected.include?(rating)
+      = check_box_tag "ratings[#{rating}]", 1, true, :id => "ratings#{rating}"
+    -else
+      = check_box_tag "ratings[#{rating}]", :id => "ratings#{rating}"
+  = submit_tag 'Refresh', :id => "ratings_submit"
+
 %table#movies
   %thead
     %tr
-      %th.hilite <a href='#{title_header_path}'>Movie Title</a>
+      %th.hilite <a href='#{title_header_path}' id="title_header">Movie Title</a>
       %th Rating
-      %th <a href='#{release_date_header_path}'>Release Date</a>
+      %th <a href='#{release_date_header_path}' id="release_date_header">Release Date</a>
       %th More Info
   %tbody
     - @movies.each do |movie|

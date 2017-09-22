@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   #   resources :products
   get 'title_header'  => 'movies#title', :as => 'title_header'
   get 'release_date_header'  => 'movies#release', :as => 'release_date_header'
+  get 'filter' => 'movies#filter'
   
   resources :movies
   
