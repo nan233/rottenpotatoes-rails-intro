@@ -1,5 +1,11 @@
 class MoviesController < ApplicationController
 
+  after_action  :store_uri_in_session
+  
+  def store_uri_in_session
+    session[:previous] = (request.fullpath).to_yaml
+  end
+  
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
@@ -11,13 +17,16 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.myratings
-    @selected = @all_ratings
-    if params[:ratings]!=nil
-      @selected = (params[:ratings].keys)
-    elsif session[:ratings]!=nil
-      @selected = YAML.load(session[:ratings])
-    end
+    if params[:ratings]==nil
+      redirect_to YAML.load(session[:previous])
+    else
+      @all_ratings = Movie.myratings
+      @selected = @all_ratings
+      if params[:ratings]!=nil
+        @selected = (params[:ratings].keys)
+      elsif session[:ratings]!=nil
+        @selected = YAML.load(session[:ratings])
+      end
     # if YAML.load(session[:title])
     #   session[:ratings] = @selected.to_yaml
     #   redirect_to title_header_path
@@ -28,8 +37,9 @@ class MoviesController < ApplicationController
     #   @movies = Movie.where({rating: @selected})
     #   session[:ratings] = @selected.to_yaml
     # end
-    @movies = Movie.where({rating: @selected})
-    session[:ratings] = @selected.to_yaml
+      @movies = Movie.where({rating: @selected})
+      session[:ratings] = @selected.to_yaml
+    end
   end
 
   def title
