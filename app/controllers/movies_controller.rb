@@ -12,15 +12,22 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.myratings
-    @selected = {}
+    @selected = @all_ratings
     if params[:ratings]!=nil
-      @selected = params[:ratings].keys
-      @movies = Movie.where({rating: params[:ratings].keys})
-    else
-      @selected = @all_ratings
-      @movies = Movie.all
+      @selected = (params[:ratings].keys)
+    elsif session[:ratings]!=nil
+      @selected = YAML.load(session[:ratings])
     end
-    session[:ratings] = @selected.to_yaml
+    if YAML.load(session[:title])
+      session[:ratings] = @selected.to_yaml
+      redirect_to title_header_path
+    elsif YAML.load(session[:release_date])
+      session[:ratings] = @selected.to_yaml
+      redirect_to release_date_header_path
+    else
+      @movies = Movie.where({rating: @selected})
+      session[:ratings] = @selected.to_yaml
+    end
   end
 
   def title
@@ -32,6 +39,8 @@ class MoviesController < ApplicationController
       @selected = YAML.load(session[:ratings])
       @movies = Movie.where({rating: @selected}).order(:title)
     end
+    session[:title] = true.to_yaml
+    session[:release_date] = false.to_yaml
   end
   
   def release
@@ -43,6 +52,8 @@ class MoviesController < ApplicationController
       @selected = YAML.load(session[:ratings])
       @movies = Movie.where({rating: @selected}).order(:release_date)
     end
+    session[:title] = false.to_yaml
+    session[:release_date] = true.to_yaml
   end
 
   def new
