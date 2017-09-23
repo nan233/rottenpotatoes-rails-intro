@@ -18,18 +18,18 @@ class MoviesController < ApplicationController
     elsif session[:ratings]!=nil
       @selected = YAML.load(session[:ratings])
     end
-    # if YAML.load(session[:title])
-    #   session[:ratings] = @selected.to_yaml
-    #   redirect_to title_header_path
-    # elsif YAML.load(session[:release_date])
-    #   session[:ratings] = @selected.to_yaml
-    #   redirect_to release_date_header_path
-    # else
-    #   @movies = Movie.where({rating: @selected})
-    #   session[:ratings] = @selected.to_yaml
-    # end
-    @movies = Movie.where({rating: @selected})
-    session[:ratings] = @selected.to_yaml
+    if YAML.load(session[:title])
+      session[:ratings] = @selected.to_yaml
+      redirect_to title_header_path
+    elsif YAML.load(session[:release_date])
+      session[:ratings] = @selected.to_yaml
+      redirect_to release_date_header_path
+    else
+      @movies = Movie.where({rating: @selected})
+      session[:ratings] = @selected.to_yaml
+    end
+    # @movies = Movie.where({rating: @selected})
+    # session[:ratings] = @selected.to_yaml
   end
 
   def title
