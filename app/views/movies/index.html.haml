@@ -9,7 +9,7 @@
     //   = check_box_tag "ratings[#{rating}]", 1, true, :id => "ratings#{rating}"
     // -else
     //   = check_box_tag "ratings[#{rating}]", :id => "ratings#{rating}"
-    = check_box_tag "ratings[#{rating}]", 1, @selected.include?("#{rating}", :id => "ratings_#{rating}"
+    = check_box_tag "ratings[#{rating}]", 1, @selected.include?("#{rating}"), :id => "ratings_#{rating}"
   = submit_tag 'Refresh', :id => "ratings_submit"
 
 %table#movies
