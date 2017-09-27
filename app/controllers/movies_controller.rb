@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
           @selected = (params[:ratings].keys)
         elsif session[:ratings]!=nil
           @selected = YAML.load(session[:ratings])
-        # end
+        end
         if YAML.load(session[:title])
           session[:ratings] = @selected.to_yaml
           redirect_to title_header_path
