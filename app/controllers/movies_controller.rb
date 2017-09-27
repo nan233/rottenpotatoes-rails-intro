@@ -41,7 +41,9 @@ class MoviesController < ApplicationController
       @movies = Movie.where({rating: @selected})
       session[:visited] = true.to_yaml
     end
-    session[:previous] = (request.fullpath).to_yaml
+    if params[:ratings]!=nil
+      session[:previous] = (request.fullpath).to_yaml
+    end
   end
 
   def title
