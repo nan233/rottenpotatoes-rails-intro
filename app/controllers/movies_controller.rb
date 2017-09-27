@@ -34,7 +34,6 @@ class MoviesController < ApplicationController
         end
         @movies = Movie.where({rating: @selected})
         # session[:ratings] = @selected.to_yaml
-      end
     else
       @all_ratings = Movie.myratings
       @selected = @all_ratings
